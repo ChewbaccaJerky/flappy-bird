@@ -7,18 +7,23 @@ class Bird extends Object {
         super(canvas, ctx, defaultPos);
         this.r = 20;
         this.vy = 0;
+        this.rotate = 0;
         this.gravity = 7;
         this.handleFly();
         this.jump = false;
         this.MAX_JUMP = 60;
+        this.MAX_ROTATE = Math.PI/ -16;
         this.source = document.getElementById("bird");
+        
     }
 
     draw(){
         // regular
+
+        this.ctx.save();
+        this.ctx.rotate(this.rotate);
         this.ctx.drawImage(this.source, this.pos["x"], this.pos["y"], 40, 40);
-        // lift
-        // falling
+        this.ctx.restore();
     }
 
     update(){
@@ -42,6 +47,7 @@ class Bird extends Object {
                 case "Space":
                     this.jump = true;
                     this.vy = this.MAX_JUMP;
+                    // this.rotate = this.MAX_ROTATE;
                     break;
 
                 default:

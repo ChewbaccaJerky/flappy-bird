@@ -1,6 +1,7 @@
 
 import Bird from "./bird";
 import Pipe from "./pipe";
+import ScoreBoard from "./scoreBoard";
 
 
 class Game {
@@ -9,25 +10,14 @@ class Game {
         this.ctx = ctx;
         this.height = height;
         this.width = width;
-        this.FPS = 50;
-        this.space = 200;
-        this.gameOver = false;
-
-        this.distanceApart = 600;
-        this.bird = new Bird(canvas, ctx);
-        this.pipes = [new Pipe(canvas, ctx, this.space)];
-        this.source = document.getElementById("background");
-        this.source.width = width;
-        this.source.height = height;
+        this.speed = 10;
     }
 
     start() {
-        
-        setInterval(()=>{
-            if(this.gameOver) {
-                console.log("GAME OVER");
-                return;
-            }
+        this.init();
+
+        const intervalKey = setInterval(()=>{
+            if (this.gameOver) clearInterval(intervalKey);
             // CLEAR
             this.clear();
             //draw background
@@ -49,24 +39,26 @@ class Game {
             // update
             this.pipes[i].update();
         }
+
+        // adds new pipe by distance apart
+        if (this.pipes[this.pipes.length - 1].pos["x"] < this.width - this.distanceApart) {
+            this.pipes.push(new Pipe(this.canvas, this.ctx, this.space, this.speed));
+        }
+
+        // remove pipe if it goes off the screen
+        if (this.pipes[0].pos["x"] < -75) {
+            this.pipes.shift();
+            this.score.updateScore();
+            this.speed *= 1.01;
+        }
     }
 
     draw() {
         for (let i = 0; i < this.pipes.length; i++) {
             this.pipes[i].draw();
         }
-
+        this.score.draw();
         this.bird.draw();
-
-        // adds new pipe by distance apart
-        if(this.pipes[this.pipes.length - 1].pos["x"] < this.width - this.distanceApart ) {
-            this.pipes.push(new Pipe(this.canvas, this.ctx, this.space));
-        }
-
-        // remove pipe if it goes off the screen
-        if(this.pipes[0].pos["x"] < -50){
-            this.pipes.shift();
-        }
     }
     
     checkCollisions(){
@@ -93,6 +85,25 @@ class Game {
         
         // draw background image  
         this.ctx.drawImage(this.source, 0, 0, this.width, this.height);
+    }
+
+    restart(){
+        this.gameOver = true;
+        this.start();
+    }
+
+    init(){
+        this.clear();
+        this.FPS = 50;
+        this.space = 200;
+        this.gameOver = false;
+        this.distanceApart = 600;
+        this.bird = new Bird(this.canvas, this.ctx);
+        this.pipes = [new Pipe(this.canvas, this.ctx, this.space, this.speed)];
+        this.source = document.getElementById("background");
+        this.source.width = this.width;
+        this.source.height = this.height;
+        this.score = new ScoreBoard(this.ctx);
     }
 }
 

@@ -22,3 +22,7 @@ const game = new Game(canvas, ctx, HEIGHT, WIDTH);
 
 //start game 
 game.start();
+
+// restart game
+
+
