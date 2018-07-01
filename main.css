@@ -5,10 +5,6 @@ html, body {
     overflow: hidden;
 }
 
-#background, #bird {
-    display: none;
-}
-
-#bottom-pipe{
+#background, #bird, .pipe {
     display: none;
 }
