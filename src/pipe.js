@@ -17,12 +17,12 @@ class Pipe extends Object {
 
     draw(){
         // main body
-        this.ctx.fillStyle = "gray";
+        this.ctx.fillStyle = "green";
         // top pipe
         this.ctx.fillRect(this.pos["x"], 0, this.width, this.topPipe);
         // this.ctx.drawImage(this.source, this.pos["x"], 0, this.width, this.topPipe);
-        // this.ctx.fillRect(this.pos["x"], this.topPipe + this.space, this.width, this.height - this.topPipe + this.space);
-        this.ctx.drawImage(this.source, this.pos["x"], this.topPipe + this.space, this.width, this.height - this.topPipe + this.space);
+        this.ctx.fillRect(this.pos["x"], this.topPipe + this.space, this.width, this.height - this.topPipe + this.space);
+        // this.ctx.drawImage(this.source, this.pos["x"], this.topPipe + this.space, this.width, this.height - this.topPipe + this.space);
         // cleared rect
         // this.ctx.clearRect(this.pos["x"], this.topPipe, this.width, this.space);
     }
